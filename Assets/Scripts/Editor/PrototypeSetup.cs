@@ -68,6 +68,8 @@ public static partial class PrototypeSetup
     const string CloverPath = "Assets/Art/Clover.png";
     const string ChestClosedPath = "Assets/Art/ChestClosed.png";
     const string ChestOpenPath = "Assets/Art/ChestOpen.png";
+    const string FortuneTellerPath = "Assets/Art/FortuneTeller.png";
+    const string FortuneTellerLitPath = "Assets/Art/FortuneTellerLit.png";
     const string DoorPath = "Assets/Art/Door.png";
     const string DoorOpenPath = "Assets/Art/DoorOpen.png";
     const string SignPath = "Assets/Art/Sign.png";
@@ -415,6 +417,23 @@ public static partial class PrototypeSetup
 
         Wire(root.gameObject.AddComponent<ChestStand>(), ("config", config), ("run", run), ("inventory", inventory), ("clover", clover),
             ("button", button), ("chest", chest), ("closedSprite", closed), ("openSprite", ImportSprite(ChestOpenPath)));
+    }
+
+    static void BuildFortuneTeller(Transform items, CommuteRun run, GameConfig config)
+    {
+        Vector2 center = Vector2.one * 0.5f;
+        var root = Child<RectTransform>("FortuneStand", items);
+        root.SetSiblingIndex(Object.FindAnyObjectByType<PlayerWalk>().transform.GetSiblingIndex());
+
+        Sprite idle = ImportSprite(FortuneTellerPath);
+        var teller = Ui<Image>("Teller", root, center, center, idle.rect.size);
+        teller.sprite = idle;
+        var button = teller.gameObject.AddComponent<PressButton>();
+        button.transition = Selectable.Transition.None;
+        teller.gameObject.SetActive(false);
+
+        Wire(root.gameObject.AddComponent<FortuneTeller>(), ("config", config), ("run", run),
+            ("button", button), ("teller", teller), ("idleSprite", idle), ("readingSprite", ImportSprite(FortuneTellerLitPath)));
     }
 
     static void BuildMagpie(Transform items, CommuteRun run, GameConfig config)
@@ -959,6 +978,7 @@ public static partial class PrototypeSetup
         Wire(run, ("clover", clover), ("inventory", inventory));
         BuildPedestrian(items.transform, run, config, inventory, bread, pickupFx);
         BuildChest(items.transform, run, config, inventory, clover);
+        BuildFortuneTeller(items.transform, run, config);
         BuildMotorbike(items.transform, run, config);
         BuildMagpie(items.transform, run, config);
         Wire(plates, ("rain", BuildRain(canvas.transform, items.transform, run, config)));

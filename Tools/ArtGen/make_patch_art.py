@@ -152,3 +152,72 @@ arcade_sign()
 wheel_frames('CarDetails', [(62, 54), (140, 54)])
 wheel_frames('BusDetails', [(75, 62), (183, 62)])
 hud_day()
+
+
+# ---------- slot machine and sign: the chest's outline + light rim so they stand out ----------
+def rim_like_chest(name):
+    from pixfont import RIM, rimmed
+    px = load(name)
+    h, w = len(px), len(px[0])
+    edge = [px[y][x] for y in range(h) for x in range(w) if px[y][x][3] and
+            any(not (0 <= x + dx < w and 0 <= y + dy < h) or not px[y + dy][x + dx][3]
+                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))]
+    if all(p == RIM for p in edge):
+        return  # already rimmed
+    save(name, rimmed(px))
+
+
+rim_like_chest('Slot')
+rim_like_chest('Sign')
+
+
+# ---------- fortune teller: hooded, facing the player, crystal ball dim (idle) or lit (reading) ----------
+TELLER = [
+    '......hhhhh.......',
+    '.....hHHHHHh......',
+    '....hHHHHHHHh.....',
+    '...hHHHHHHHHHh....',
+    '...HHssssHHHHH....',
+    '...HsesssHHHHHH...',
+    '...HsssssHHHHHH...',
+    '...HHsssHHHHHHH...',
+    '.*..HggggHHHHHHH..',
+    '...*RRRRRRRRRRRR..',
+    '.bbRRRRRyRRRRRRR..',
+    'bwbbRRRRRRRRRyRR..',
+    'bbbbRRRRRRRRRRRR..',
+    '.bbRRRRRRRRRRRRRR.',
+    'ssssRRRRRRRRRRRRR.',
+    '.*.RRRRRyRRRRRRRR.',
+    '...RRRRRRRRRRRRRR.',
+    '..RRRRRRRRRRRyRRR.',
+    '..RRRRRRRRRRRRRRRR',
+    '..RRRRRRRRRRRRRRRR',
+    '.RRRRRRRyRRRRRRRRR',
+    '.rRRRRRRRRRRRRRRRR',
+    '.rrrrrrrrrrrrrrrrr',
+    '....ff......ff....',
+    '...fff.....fff....',
+]
+
+
+def fortune_teller(lit):
+    colors = {
+        'h': C('#7b5cc0'), 'H': C('#3b2a56'), 'R': C('#5b3f8c'), 'r': C('#2a1f47'),
+        's': C('#f6c9a8'), 'e': C('#1c1230'), 'g': C('#ffd257'), 'y': C('#ffd257'), 'f': C('#1c1230'),
+        'b': C('#49e8ff') if lit else C('#5e7fb8'),
+        'w': C('#fff4e2') if lit else C('#a2cde4'),
+        '*': C('#fff4e2') if lit else CLEAR,
+    }
+    px = []
+    for row in TELLER:
+        line = []
+        for cell in row:
+            line += [colors.get(cell, CLEAR)] * BLOCK
+        px += [line[:], line[:]]
+    from pixfont import rimmed
+    return rimmed(px)
+
+
+save('FortuneTeller', fortune_teller(False))
+save('FortuneTellerLit', fortune_teller(True))

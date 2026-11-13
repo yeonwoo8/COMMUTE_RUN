@@ -49,6 +49,12 @@ MonoBehaviour:
   cloverAskDays: 0200000003000000
   cloverAskProgress: 0.86
   cloverAskPoints: 10
+  fortuneProgress:
+  - 0.08
+  - 0.38
+  fortuneCenterY: 41
+  fortunePoints: 0400000006000000080000000a000000
+  fortuneWeights: 1e0000001e0000001e0000000a000000
   rainDay: 3
   rainFadeSeconds: 0.6
   rainVolume: 0.25
