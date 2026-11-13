@@ -64,6 +64,14 @@ public class GameConfig : ScriptableObject
     [Range(0f, 1f)] public float cloverAskProgress = 0.86f;
     public int cloverAskPoints = 10;
 
+    [Header("Fortune Teller")]
+    [Tooltip("Commute progress at which each fortune teller appears.")]
+    public float[] fortuneProgress = { 0.08f, 0.38f };
+    public float fortuneCenterY = 41f;
+    public int[] fortunePoints = { 4, 6, 8, 10 };
+    [Tooltip("Chance weight of each entry in fortunePoints.")]
+    public int[] fortuneWeights = { 30, 30, 30, 10 };
+
     [Header("Rain Day")]
     public int rainDay = 3;
     public float rainFadeSeconds = 0.6f;
@@ -225,15 +233,19 @@ public class GameConfig : ScriptableObject
 
     public VehicleType PickVehicle() => Random.value < busChance ? bus : car;
 
-    public int PickPlateTier()
+    public int PickPlateTier() => PickWeighted(plateWeights);
+
+    public int PickFortunePoints() => fortunePoints[PickWeighted(fortuneWeights)];
+
+    static int PickWeighted(int[] weights)
     {
         int total = 0;
-        foreach (int weight in plateWeights) total += weight;
+        foreach (int weight in weights) total += weight;
 
         int roll = Random.Range(0, total);
-        for (int i = 0; i < plateWeights.Length; i++)
+        for (int i = 0; i < weights.Length; i++)
         {
-            roll -= plateWeights[i];
+            roll -= weights[i];
             if (roll < 0) return i;
         }
         return 0;
