@@ -68,9 +68,19 @@ public class GameConfig : ScriptableObject
     [Tooltip("Commute progress at which each fortune teller appears.")]
     public float[] fortuneProgress = { 0.08f, 0.38f };
     public float fortuneCenterY = 41f;
-    public int[] fortunePoints = { 4, 6, 8, 10 };
+    public int[] fortunePoints = { -3, 0, 2, 3, 5, 8 };
     [Tooltip("Chance weight of each entry in fortunePoints.")]
-    public int[] fortuneWeights = { 30, 30, 30, 10 };
+    public int[] fortuneWeights = { 20, 20, 20, 20, 10, 10 };
+    public float fortuneCardSeconds = 1.2f;
+    public float fortuneGlowSeconds = 0.35f;
+    public float fortuneFadeSeconds = 0.4f;
+    [Tooltip("Glow behind the devil (minus), blank (zero) and lucky (plus) card.")]
+    public Color[] fortuneGlowColors =
+    {
+        new Color32(255, 79, 99, 255),
+        new Color32(251, 241, 234, 255),
+        new Color32(255, 210, 87, 255),
+    };
 
     [Header("Rain Day")]
     public int rainDay = 3;

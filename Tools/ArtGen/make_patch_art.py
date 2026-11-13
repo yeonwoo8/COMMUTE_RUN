@@ -183,17 +183,17 @@ TELLER = [
     '...HHsssHHHHHHH...',
     '.*..HggggHHHHHHH..',
     '...*RRRRRRRRRRRR..',
-    '.bbRRRRRyRRRRRRR..',
-    'bwbbRRRRRRRRRyRR..',
+    '.bbRRRRRRRRRRRRR..',
+    'bwbbRRRRRRRRRRRR..',
     'bbbbRRRRRRRRRRRR..',
-    '.bbRRRRRRRRRRRRRR.',
-    'ssssRRRRRRRRRRRRR.',
-    '.*.RRRRRyRRRRRRRR.',
-    '...RRRRRRRRRRRRRR.',
-    '..RRRRRRRRRRRyRRR.',
+    '.bbRRRRRyyyyRRRRR.',
+    'ssssRRRRRRRyRRRRR.',
+    '.*.RRRRRRyyyRRRRR.',
+    '...RRRRRRRRyRRRRR.',
+    '..RRRRRRyyyyRRRRR.',
     '..RRRRRRRRRRRRRRRR',
     '..RRRRRRRRRRRRRRRR',
-    '.RRRRRRRyRRRRRRRRR',
+    '.RRRRRRRRRRRRRRRRR',
     '.rRRRRRRRRRRRRRRRR',
     '.rrrrrrrrrrrrrrrrr',
     '....ff......ff....',
@@ -221,3 +221,56 @@ def fortune_teller(lit):
 
 save('FortuneTeller', fortune_teller(False))
 save('FortuneTellerLit', fortune_teller(True))
+
+
+# ---------- fortune cards: devil (minus), blank (zero), lucky (plus), and a white glow tinted in code ----------
+CARD_SYMBOLS = {
+    'Devil': ['.........', '.h.....h.', '.hh...hh.', '..hRRRh..', '.RRRRRRR.', '.RyRRRyR.',
+              '.RRRRRRR.', '.RR.R.RR.', '..RRRRR..', '...R.R...', '.........', '.........'],
+    'Blank': ['.........', '.........', '.........', '...ooo...', '..o...o..', '..o...o..',
+              '..o...o..', '..o...o..', '...ooo...', '.........', '.........', '.........'],
+    'Lucky': ['s.......s', '....S....', '....S....', '...SSS...', 'SSSSWSSSS', '.SSWWWSS.',
+              '..SSSSS..', '..SS.SS..', '.SS...SS.', '.S.....S.', '.........', 's.......s'],
+}
+CARD_COLORS = {
+    'Devil': {'F': C('#824941'), 'i': C('#1c1230'), 'h': C('#ff4fa3'), 'R': C('#d8574a'), 'y': C('#ffd257')},
+    'Blank': {'F': C('#c9c9c0'), 'i': C('#efdcb8'), 'o': C('#a28e70')},
+    'Lucky': {'F': C('#ffd257'), 'i': C('#2a1f47'), 'S': C('#ffd257'), 'W': C('#fff4e2'), 's': C('#49e8ff')},
+}
+
+
+def fortune_card(kind):
+    from pixfont import rimmed
+    rows = ['F' * 11] + ['F' + 'i' * 9 + 'F'] * 14 + ['F' * 11]
+    rows = [list(r) for r in rows]
+    for y, line in enumerate(CARD_SYMBOLS[kind]):
+        for x, cell in enumerate(line):
+            if cell != '.':
+                rows[2 + y][1 + x] = cell
+    colors = CARD_COLORS[kind]
+    px = []
+    for row in rows:
+        line = []
+        for cell in row:
+            line += [colors[cell]] * BLOCK
+        px += [line[:], line[:]]
+    return rimmed(px)
+
+
+def card_glow(w, h, ring):
+    # White halo with alpha stepping down outwards; Image.color tints it per card.
+    alphas = [255, 170, 100, 50]
+    px = [[CLEAR] * w for _ in range(h)]
+    for y in range(h):
+        for x in range(w):
+            d = max(ring - x, x - (w - 1 - ring), ring - y, y - (h - 1 - ring), 0)
+            corner = min(x, w - 1 - x) + min(y, h - 1 - y) < ring - 1
+            if d < len(alphas) and not corner:
+                px[y][x] = (255, 255, 255, alphas[d])
+    return px
+
+
+for kind in CARD_SYMBOLS:
+    save('Card' + kind, fortune_card(kind))
+save('CardGlow', card_glow(26 + 8, 36 + 8, 4))
+

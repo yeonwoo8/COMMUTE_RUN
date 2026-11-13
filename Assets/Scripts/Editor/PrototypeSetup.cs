@@ -70,6 +70,8 @@ public static partial class PrototypeSetup
     const string ChestOpenPath = "Assets/Art/ChestOpen.png";
     const string FortuneTellerPath = "Assets/Art/FortuneTeller.png";
     const string FortuneTellerLitPath = "Assets/Art/FortuneTellerLit.png";
+    const string CardGlowPath = "Assets/Art/CardGlow.png";
+    static readonly string[] CardPaths = { "Assets/Art/CardDevil.png", "Assets/Art/CardBlank.png", "Assets/Art/CardLucky.png" };
     const string DoorPath = "Assets/Art/Door.png";
     const string DoorOpenPath = "Assets/Art/DoorOpen.png";
     const string SignPath = "Assets/Art/Sign.png";
@@ -432,8 +434,22 @@ public static partial class PrototypeSetup
         button.transition = Selectable.Transition.None;
         teller.gameObject.SetActive(false);
 
-        Wire(root.gameObject.AddComponent<FortuneTeller>(), ("config", config), ("run", run),
-            ("button", button), ("teller", teller), ("idleSprite", idle), ("readingSprite", ImportSprite(FortuneTellerLitPath)));
+        // The card floats beside the teller, on the side facing the player.
+        Sprite glowSprite = ImportSprite(CardGlowPath);
+        var glow = Ui<Image>("CardGlow", teller.transform, center, center, glowSprite.rect.size);
+        glow.sprite = glowSprite;
+        glow.raycastTarget = false;
+        glow.rectTransform.anchoredPosition = new Vector2(-36f, 26f);
+        var cardSprites = new Sprite[CardPaths.Length];
+        for (int i = 0; i < cardSprites.Length; i++) cardSprites[i] = ImportSprite(CardPaths[i]);
+        var card = Ui<Image>("Card", glow.transform, center, center, cardSprites[0].rect.size);
+        card.raycastTarget = false;
+        glow.gameObject.SetActive(false);
+
+        var fortune = root.gameObject.AddComponent<FortuneTeller>();
+        Wire(fortune, ("config", config), ("run", run), ("button", button), ("teller", teller), ("idleSprite", idle),
+            ("readingSprite", ImportSprite(FortuneTellerLitPath)), ("glow", glow), ("card", card));
+        WireArray(fortune, "cardSprites", cardSprites);
     }
 
     static void BuildMagpie(Transform items, CommuteRun run, GameConfig config)
