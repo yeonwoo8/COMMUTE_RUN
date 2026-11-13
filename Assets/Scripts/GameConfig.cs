@@ -4,7 +4,8 @@ using UnityEngine;
 public struct VehicleType
 {
     public Sprite body;
-    public Sprite details;
+    [Tooltip("Wheel frames; the hubs turn by cycling through them.")]
+    public Sprite[] details;
     public Vector2 size;
     public Vector2 platePosition;
 }
@@ -100,6 +101,7 @@ public class GameConfig : ScriptableObject
     [Header("Plates (canvas units, 640x360)")]
     public float itemInterval = 1.2f;
     public float itemSpeed = 160f;
+    public float wheelFrameSeconds = 0.1f;
     public float offscreenEdgeX = 420f;
     public Color[] carColors =
     {

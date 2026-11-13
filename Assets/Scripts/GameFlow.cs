@@ -18,6 +18,7 @@ public class GameFlow : MonoBehaviour
     [SerializeField] TMP_Text hint;
     [SerializeField] NumberSprites tvQuota;
     [SerializeField] NumberSprites dayNumber;
+    [SerializeField] NumberSprites hudDay;
     [SerializeField] ResultScreen result;
     [SerializeField] OfficeScene office;
     [SerializeField] Newspaper newspaper;
@@ -50,6 +51,7 @@ public class GameFlow : MonoBehaviour
         dayCard.SetActive(false);
         door.sprite = doorClosed;
         tvQuota.Show(run.Quota);
+        hudDay.Show(run.Day);
         hint.SetText("DAY {0:0}  -  LUCK GOAL {1:0}  -  CLICK THE DOOR", run.Day, run.Quota);
         home.SetActive(true);
     }

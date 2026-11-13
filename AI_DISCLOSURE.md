@@ -13,7 +13,7 @@
 ### 1-1. 도트 아트 — Claude가 작성한 스크립트로 생성 (`Tools/ArtGen/`)
 | 파일 | 내용 |
 |---|---|
-| `Buildings_A~C.png` | 배경 건물 거리 (333 네온 건물, 한글 간판 포함) |
+| `Buildings_A~C.png` | 배경 건물 거리 (오락실 네온 건물, 한글 간판 포함. A의 간판 글자는 `make_patch_art.py`) |
 | `BuildingsAnim_*.png` | 네온 깜빡임, 연기, 현수막, 비둘기 애니메이션 |
 | `Glow_A~C.png` | 네온 발광 |
 | `Sky.png`, `Skyline.png` | 하늘, 먼 스카이라인 |
@@ -33,6 +33,7 @@
 | `Sign.png` | 표지판 |
 | `Plate.png`, `PlateLucky.png`, `PlateDigit_0~9.png` | 번호판 판, 당첨 3, 숫자 |
 | `HudLuck`, `HudPanel`, `HudFlash`, `HudDigit_0~9` | LUCK 제목, 점수판 패널, 네온 깜빡임, LUCK·슬롯 숫자 |
+| `HudDay`, `HudDayPanel`, `CarDetails_0~5`, `BusDetails_0~5` | DAY 제목·패널, 바퀴 회전 프레임 (`make_patch_art.py`) |
 | `PopPlus`, `PopMinus`, `PopDigit_0~9` | 마우스 근처에 뜨는 +n, -n 숫자 |
 
 **스크립트로 기존 스프라이트를 수정한 것**

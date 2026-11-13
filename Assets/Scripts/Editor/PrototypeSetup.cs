@@ -28,9 +28,10 @@ public static partial class PrototypeSetup
     const int PlayerFrameCount = 4;
     const string SlotPath = "Assets/Art/Slot.png";
     const string CarBodyPath = "Assets/Art/CarBody.png";
-    const string CarDetailsPath = "Assets/Art/CarDetails.png";
+    const string CarDetailsPath = "Assets/Art/CarDetails_{0}.png";
     const string BusBodyPath = "Assets/Art/BusBody.png";
-    const string BusDetailsPath = "Assets/Art/BusDetails.png";
+    const string BusDetailsPath = "Assets/Art/BusDetails_{0}.png";
+    const int WheelFrameCount = 6;
     const string PersonWalkPath = "Assets/Art/Person_Walk_{0}.png";
     const string PersonFallPath = "Assets/Art/Person_Fall_{0}.png";
     const string HomePath = "Assets/Art/Home.png";
@@ -84,6 +85,8 @@ public static partial class PrototypeSetup
     const string PopMinusPath = "Assets/Art/PopMinus.png";
     const string PopDigitPath = "Assets/Art/PopDigit_{0}.png";
     const string HudDigitPath = "Assets/Art/HudDigit_{0}.png";
+    const string HudDayPath = "Assets/Art/HudDay.png";
+    const string HudDayPanelPath = "Assets/Art/HudDayPanel.png";
     const string ConfigPath = "Assets/Data/GameConfig.asset";
     const string PrefabPath = "Assets/Prefabs/LicensePlate.prefab";
     const string TmpPackage = "Packages/com.unity.ugui/Package Resources/TMP Essential Resources.unitypackage";
@@ -184,22 +187,24 @@ public static partial class PrototypeSetup
             EditorUtility.SetDirty(config);
         }
 
-        if (config.car.body) return config;
+        if (!config.car.body)
+        {
+            config.car = new VehicleType
+            {
+                body = ImportSprite(CarBodyPath),
+                size = new Vector2(176f, 72f),
+                platePosition = new Vector2(-61f, -12f),
+            };
+            config.bus = new VehicleType
+            {
+                body = ImportSprite(BusBodyPath),
+                size = new Vector2(240f, 80f),
+                platePosition = new Vector2(-93f, -13f),
+            };
+        }
 
-        config.car = new VehicleType
-        {
-            body = ImportSprite(CarBodyPath),
-            details = ImportSprite(CarDetailsPath),
-            size = new Vector2(176f, 72f),
-            platePosition = new Vector2(-61f, -12f),
-        };
-        config.bus = new VehicleType
-        {
-            body = ImportSprite(BusBodyPath),
-            details = ImportSprite(BusDetailsPath),
-            size = new Vector2(240f, 80f),
-            platePosition = new Vector2(-93f, -13f),
-        };
+        config.car.details = LoadFrames(CarDetailsPath, WheelFrameCount);
+        config.bus.details = LoadFrames(BusDetailsPath, WheelFrameCount);
         EditorUtility.SetDirty(config);
         return config;
     }
@@ -267,8 +272,8 @@ public static partial class PrototypeSetup
         asphalt.color = new Color32(86, 74, 98, 255);
         asphalt.transform.localScale = new Vector3(11f, 5.4f, 1f);
 
-        BuildUi(root, run, config, prefab);
-        BuildScreens(root, run, config);
+        NumberSprites hudDay = BuildUi(root, run, config, prefab);
+        BuildScreens(root, run, config, hudDay);
         AddBumpFeedback();
         BuildAudio(root);
     }
@@ -488,7 +493,7 @@ public static partial class PrototypeSetup
         return canvas;
     }
 
-    static void BuildScreens(Transform root, CommuteRun run, GameConfig config)
+    static void BuildScreens(Transform root, CommuteRun run, GameConfig config, NumberSprites hudDay)
     {
         Vector2 center = Vector2.one * 0.5f;
         var canvas = CreateCanvas("Screens", root);
@@ -551,7 +556,7 @@ public static partial class PrototypeSetup
         Wire(canvas.gameObject.AddComponent<GameFlow>(),
             ("config", config), ("run", run), ("title", title.gameObject), ("home", home.gameObject), ("dayCard", dayCard.gameObject),
             ("startButton", startButton), ("doorButton", doorButton), ("door", door), ("doorOpen", ImportSprite(DoorOpenPath)),
-            ("hint", hint), ("tvQuota", tvQuota), ("dayNumber", dayNumber),
+            ("hint", hint), ("tvQuota", tvQuota), ("dayNumber", dayNumber), ("hudDay", hudDay),
             ("result", result), ("office", office), ("newspaper", newspaper));
     }
 
@@ -899,7 +904,7 @@ public static partial class PrototypeSetup
         return renderer;
     }
 
-    static void BuildUi(Transform root, CommuteRun run, GameConfig config, LicensePlate prefab)
+    static NumberSprites BuildUi(Transform root, CommuteRun run, GameConfig config, LicensePlate prefab)
     {
         var canvas = CreateCanvas("Hud", root);
 
@@ -960,6 +965,24 @@ public static partial class PrototypeSetup
         BuildComboHud(canvas.transform, combo, config);
         BuildLuckPopups(canvas.transform, run, config);
         pickupFx.transform.SetAsLastSibling();
+        return BuildDayHud(canvas.transform);
+    }
+
+    static NumberSprites BuildDayHud(Transform parent)
+    {
+        var topRight = Vector2.one;
+        Sprite panelSprite = ImportSprite(HudDayPanelPath);
+        var panel = Ui<Image>("Day", parent, topRight, topRight, panelSprite.rect.size);
+        panel.sprite = panelSprite;
+        panel.raycastTarget = false;
+        panel.rectTransform.pivot = topRight;
+        panel.rectTransform.anchoredPosition = new Vector2(-12f, -40f);
+
+        HudSprite("Title", panel.transform, ImportSprite(HudDayPath), 6f);
+        // The digit slot spans x 46-56 of the 63px panel; NumberSprites centers on its transform.
+        NumberSprites day = BuildNumber("Number", panel.transform, LoadFrames(HudDigitPath, 10), 1, 12f, new Vector2(20f, 0f), null);
+        day.Show(1);
+        return day;
     }
 
     static (RectTransform marker, Image fill) BuildTrack(Transform parent)
