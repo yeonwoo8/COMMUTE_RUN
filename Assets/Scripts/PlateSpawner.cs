@@ -15,6 +15,8 @@ public class PlateSpawner : MonoBehaviour
     ObjectPool<LicensePlate> pool;
     float[] laneFreeAt;
     float timer;
+    float wheelTimer;
+    int wheelFrame;
 
     void Awake()
     {
@@ -44,9 +46,18 @@ public class PlateSpawner : MonoBehaviour
             Spawn();
         }
 
+        wheelTimer += Time.deltaTime;
+        bool turnWheels = wheelTimer >= config.wheelFrameSeconds;
+        if (turnWheels)
+        {
+            wheelTimer -= config.wheelFrameSeconds;
+            wheelFrame++;
+        }
+
         float step = config.itemSpeed * Time.deltaTime;
         for (int i = active.Count - 1; i >= 0; i--)
         {
+            if (turnWheels) active[i].ShowWheelFrame(wheelFrame);
             RectTransform rect = active[i].Rect;
             rect.anchoredPosition += Vector2.left * step;
             if (rect.anchoredPosition.x < -config.vehicleEdgeX) Release(i);

@@ -19,6 +19,9 @@ MonoBehaviour:
   failPayPerLuck: 300
   payCountSeconds: 1.2
   bossFrameSeconds: 0.25
+  newsZoomSeconds: 0.8
+  newsZoomScale: 3
+  newsZoomLift: 24
   comboStreak: 3
   comboMultiplier: 2
   feverStreak: 9
@@ -37,11 +40,25 @@ MonoBehaviour:
   chestCenterY: 24
   chestShakeSeconds: 0.25
   chestShakePixels: 2
-  cloverItem: {fileID: 21300000, guid: b38542b4f8b350a40a2f5aecc5301688, type: 3}
   cloverChance: 0.33
   cloverMultiplier: 2
   cloverPopSeconds: 0.25
   cloverPopScale: 1.6
+  bonusChestDay: 2
+  bonusChestProgress: 0.15
+  cloverAskDays: 0200000003000000
+  cloverAskProgress: 0.86
+  cloverAskPoints: 10
+  rainDay: 3
+  rainFadeSeconds: 0.6
+  rainVolume: 0.25
+  rainScroll: {x: 0.8, y: 4}
+  rainItemIntervalScale: 1.8
+  rainClearSeconds: 12
+  umbrellaPoints: 5
+  umbrellaFirstSeconds: 6
+  umbrellaIntervalSeconds: 10
+  umbrellaY: 20
   magpieIntervalMin: 8
   magpieIntervalMax: 14
   magpieSpeed: 230
@@ -60,6 +77,7 @@ MonoBehaviour:
   doorOpenSeconds: 0.5
   itemInterval: 1.2
   itemSpeed: 160
+  wheelFrameSeconds: 0.1
   offscreenEdgeX: 420
   carColors:
   - {r: 0.8392157, g: 0.27058825, b: 0.25490198, a: 1}
@@ -76,12 +94,24 @@ MonoBehaviour:
   vehicleGap: 40
   car:
     body: {fileID: 21300000, guid: 25d4ecf9909e16c46af6fbc5cc29604e, type: 3}
-    details: {fileID: 21300000, guid: 13d535410953ba04f9cfc2ed3b15d263, type: 3}
+    details:
+    - {fileID: 21300000, guid: 2a4d72970195b254580650214dd76efe, type: 3}
+    - {fileID: 21300000, guid: 4dcf0669459279044b59cef3ff35dc34, type: 3}
+    - {fileID: 21300000, guid: 0374afe0a3adc99478097c239f819e30, type: 3}
+    - {fileID: 21300000, guid: 2dd84299848307f40920631057bd5d75, type: 3}
+    - {fileID: 21300000, guid: 9588bcea28f6f5040945097635265e60, type: 3}
+    - {fileID: 21300000, guid: 8bcd728b639607944a4747e368832c21, type: 3}
     size: {x: 176, y: 72}
     platePosition: {x: -61, y: -12}
   bus:
     body: {fileID: 21300000, guid: 5d228465b007ab04e847993fa2122045, type: 3}
-    details: {fileID: 21300000, guid: e212f7763cefbc5418dbbbe2bbb43d43, type: 3}
+    details:
+    - {fileID: 21300000, guid: 832161da825848a4caf191dff6ad80b7, type: 3}
+    - {fileID: 21300000, guid: 6763face7482110449a323d0d4690ae4, type: 3}
+    - {fileID: 21300000, guid: a41303c9903b16e4994e511332022f63, type: 3}
+    - {fileID: 21300000, guid: 582f7713474d3224cab736bc5c906eda, type: 3}
+    - {fileID: 21300000, guid: 0388eee6c12767f41bc0d6c77a0929d9, type: 3}
+    - {fileID: 21300000, guid: 0e32e973f6412d04db31a0211ccfc331, type: 3}
     size: {x: 240, y: 80}
     platePosition: {x: -93, y: -13}
   busChance: 0.2
@@ -123,6 +153,10 @@ MonoBehaviour:
   popupEdgeX: 308
   popupEdgeY: 150
   popupGainColor: {r: 1, g: 0.8784314, b: 0.5411765, a: 1}
+  popupBoostColors:
+  - {r: 1, g: 0.5882353, b: 0.27450982, a: 1}
+  - {r: 0.28627452, g: 0.9098039, b: 1, a: 1}
+  - {r: 1, g: 0.30980393, b: 0.6392157, a: 1}
   bumpFreezeSeconds: 0.12
   bumpWarnDistance: 60
   bumpFlySpeed: 240

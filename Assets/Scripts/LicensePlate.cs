@@ -13,6 +13,7 @@ public class LicensePlate : MonoBehaviour
 
     readonly char[] digits = new char[4];
     Image carBody;
+    Sprite[] wheelFrames;
 
     public Button[] Cells { get; private set; }
     public RectTransform Rect { get; private set; }
@@ -29,7 +30,8 @@ public class LicensePlate : MonoBehaviour
         VehicleType vehicle = config.PickVehicle();
         carBody.sprite = vehicle.body;
         carBody.color = config.carColors[Random.Range(0, config.carColors.Length)];
-        details.sprite = vehicle.details;
+        wheelFrames = vehicle.details;
+        details.sprite = wheelFrames[0];
         Rect.sizeDelta = details.rectTransform.sizeDelta = vehicle.size;
         plate.anchoredPosition = vehicle.platePosition;
 
@@ -49,6 +51,8 @@ public class LicensePlate : MonoBehaviour
 
         for (int i = 0; i < digits.Length; i++) ShowCell(i);
     }
+
+    public void ShowWheelFrame(int frame) => details.sprite = wheelFrames[frame % wheelFrames.Length];
 
     void ShowCell(int index)
     {
