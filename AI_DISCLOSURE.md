@@ -1,0 +1,141 @@
+# AI 사용 공개 정리 — 럭키 출근길 (Official 2026 Unity Game Jam)
+
+- **최종 갱신:** 2026-11-11 (최초 작성 2026-11-09, `AI_DISCLOSURE.txt`에서 이전)
+- **잼 규칙:** 생성형 AI를 사용했다면 도구와 사용 범위를 제출 페이지에 공개한다.
+- **사용 도구:** Claude Code (Anthropic), 모델 Claude Opus 5.5
+
+> AI가 이미지·소리를 직접 생성한 것이 아니라, **Claude가 작성한 Python 스크립트로 도트 아트와 소리를 절차적으로 생성**했다. 공개할 때는 이 점을 함께 적는다.
+
+---
+
+## 1. AI가 만든 것 (확인됨)
+
+### 1-1. 도트 아트 — Claude가 작성한 스크립트로 생성 (`Tools/ArtGen/`)
+| 파일 | 내용 |
+|---|---|
+| `Buildings_A~C.png` | 배경 건물 거리 (333 네온 건물, 한글 간판 포함) |
+| `BuildingsAnim_*.png` | 네온 깜빡임, 연기, 현수막, 비둘기 애니메이션 |
+| `Glow_A~C.png` | 네온 발광 |
+| `Sky.png`, `Skyline.png` | 하늘, 먼 스카이라인 |
+| `Props.png` | 인도 소품 |
+| `Foreground.png` | 앞 레이어 (전봇대, 가로등, 신호등 등) |
+| `Motorbike_0~1.png` | 오토바이 |
+| `Home.png` | 집 방 배경 (`make_home.py`) |
+| `Logo.png` | 타이틀 도트 로고 (`make_logo.py`) |
+| `StartButton*.png` | START 버튼 기본/호버/눌림 (`make_ui_fx.py`) |
+| `Dust_0~2.png` | 걷기 먼지 (`make_ui_fx.py`) |
+| `Spark.png` | 빵 줍기 반짝이 (`make_ui_fx.py`) |
+| `Track*.png` | 상단 진행 바, 채움, 주인공 얼굴, 집·회사 아이콘 (`make_progress.py`) |
+| `Office`, `OfficeDesk`, `Boss_*` | 회사 배경, 책상, 상사 화남/기쁨 (`make_loop_art.py`) |
+| `QuotaClear`, `QuotaFail`, `DayLabel`, `DayDigit_*`, `PayDigit_*`, `PayWon`, `TvDigit_*` | 결과·날짜·돈·TV 숫자 |
+| `Magpie_0~1`, `Combo*`, `Fever` | 까치, 삼세번 콤보 표시, 333 FEVER 문구 |
+| `BubbleWide`, `Key`, `Clover`, `ChestClosed`, `ChestOpen` | 빵 2개 말풍선, 열쇠, 금빛 네잎클로버, 상자 (`make_quest_art.py`) |
+| `Sign.png` | 표지판 |
+| `Plate.png`, `PlateLucky.png`, `PlateDigit_0~9.png` | 번호판 판, 당첨 3, 숫자 |
+| `HudLuck`, `HudPanel`, `HudFlash`, `HudDigit_0~9` | LUCK 제목, 점수판 패널, 네온 깜빡임, LUCK·슬롯 숫자 |
+| `PopPlus`, `PopMinus`, `PopDigit_0~9` | 마우스 근처에 뜨는 +n, -n 숫자 |
+
+**스크립트로 기존 스프라이트를 수정한 것**
+- 색 교체: `DoorOpen`, `CarDetails`, `BusDetails`, `Plate`, `HudDigit`, `Player`, `Person`, `Slot`
+- `Player`: 밝은 외곽선과 발밑 그림자 추가
+- `Stain`, `Sidewalk`, `Slot`: 크기 축소, 색 교체, 하이라이트 추가
+- `CarBody`, `CarDetails`, `BusBody`, `BusDetails`, `Bread`, `Bubble`: 색 교체, 빛 리터칭
+
+### 1-2. 소리 — Claude가 작성한 스크립트로 생성 (`Tools/AudioGen/gen_audio.py`, 11/11)
+외부 음원이나 샘플은 쓰지 않고, 사각파·삼각파·노이즈를 합성해 만들었다.
+
+| 파일 (`Assets/Audio/`) | 용도 |
+|---|---|
+| `Gain` | 행운 + (콤보마다 음계 상승) |
+| `Loss` | 행운 − |
+| `ComboUp`, `Fever` | 삼세번 콤보, 333 FEVER |
+| `SlotTick`, `ReelStop`, `Jackpot` | 슬롯 회전, 릴 멈춤, 333 잭팟 |
+| `Pop` | 아이템 획득 |
+| `Bump` | 행인과 충돌 |
+| `Click`, `Door` | UI 클릭, 문 열기 |
+| `BgmHome`, `BgmCommute` | 집·타이틀 BGM, 출근길 BGM (멜로디 작곡 포함) |
+
+### 1-3. 글 (11/11)
+- **오프닝 신문 컷씬:** 신문 이름(THE DAILY GRIND), 기사 제목, 행운 기사 본문, 주인공 대사 3줄을 Claude가 영어로 작성
+- 신문 화면은 이미지 없이 색 블록과 텍스트로 구성 (`PrototypeSetup.BuildNewspaper`)
+
+### 1-4. 코드
+**새로 작성**
+| 파일 | 내용 |
+|---|---|
+| `PressButton.cs` | 누르는 순간 판정하는 버튼 |
+| `ScreenShake.cs` | 충돌 시 화면 흔들림과 히트스톱 |
+| `BuildingRow.cs` | 건물 무작위 연결과 애니메이션 |
+| `Motorbike.cs` | 지나가는 오토바이 |
+| `LuckScoreboard.cs` | 점수판 연출 |
+| `LuckPopups.cs` | 점수 획득 숫자 표시 |
+| `WalkDust.cs` | 걸을 때 발밑 먼지 |
+| `PickupFx.cs` | 빵 줍기 반짝임과 인벤토리로 날아가는 연출 |
+| `PoolPrewarm.cs` | 오브젝트 풀 미리 생성 |
+| `ComboMeter.cs`, `ComboHud.cs` | 삼세번 콤보와 333 FEVER, 콤보 표시 |
+| `Magpie.cs` | 까치 이벤트 |
+| `NumberSprites.cs` | 도트 숫자 표시 |
+| `OfficeScene.cs` | 회사 결과 장면 (보너스/꾸중) |
+| `ChestStand.cs` | 후반 상자 (열쇠로 열기) |
+| `CloverCharm.cs` | 금빛 네잎클로버 행운 두 배 |
+| `Newspaper.cs` | 오프닝 신문 컷씬 (11/11) |
+| `GameAudio.cs` | 행운·콤보 효과음, BGM 전환 (11/11) |
+| `Editor/PrototypeSetup.Audio.cs` | 오디오 연결과 임포트 설정 (11/11) |
+
+**수정**
+| 파일 | 내용 |
+|---|---|
+| `GameFlow.cs`, `CommuteRun.cs` | 하루 루프, 할당량, 점점 빨라지는 속도 / 신문 컷씬 연결, 클릭·문 소리 (11/11) |
+| `LicensePlate.cs` | 도트 숫자 표시 |
+| `CommuteHud.cs` | 도트 LUCK 표시, 진행 바 채움과 얼굴 마커 이동 |
+| `SlotGame.cs` | 도트 슬롯 숫자 / 슬롯 효과음 (11/11) |
+| `Pedestrian.cs` | 충돌 시 행인 날아감, ! 예고 / 충돌 효과음 (11/11) |
+| `PlayerWalk.cs` | 충돌 반응, UI 이미지 전환, 발 디딜 때 먼지 |
+| `BreadPickup.cs`, `Inventory.cs` | 빵 줍기 연출 연결 |
+| `PickupFx.cs` | 날아가는 아이콘 크기 버그 수정, 획득 효과음 (11/11) |
+| `OfficeScene.cs` | 헤드라인 크기 버그 수정 (11/11) |
+| `GameConfig.cs` / `GameConfig.asset` | 충돌 연출 수치 / 신문 확대 수치, 번호판 확률 조정 (11/11) |
+| `Editor/PrototypeSetup.cs` | 씬·프리팹 자동 구성 / 행인 렌더링 순서, 신문 화면 (11/11) |
+
+**씬·프리팹:** `SampleScene.unity` (LUCK 표시, 슬롯 릴 구성), `LicensePlate.prefab` (번호판 구성)
+
+---
+
+## 2. 제출 전에 직접 확인할 것
+11/9 이전에 만들어진 항목이라 출처를 알 수 없다. AI로 만들었다면 1번에 추가하고, 직접 만들었거나 외부 에셋이면 크레딧에 적는다.
+
+- [ ] 위 목록 외의 스크립트 (`RoadScroller`, `Inventory`, `BreadPickup`, `SignStand`, `SignStain`, `SlotStand` 등)
+- [ ] 그 외 도트 (`Player`, `Person`, `Car`, `Bus`, `Slot`, `Sign`, `Stain`, `Bread`, `Bubble`, `Lucky3`, `Sidewalk`, `Door` 등)
+- [ ] **폰트 크레딧:** UI 텍스트는 TextMesh Pro 기본 폰트 **Liberation Sans** (SIL Open Font License)를 쓴다. AI 생성은 아니지만 크레딧 표기가 필요하다
+- [ ] 앞으로 추가하는 에셋은 이 문서에 바로 기록한다
+
+---
+
+## 3. 제출 페이지용 문구 (2번 확인 후 수정해서 사용)
+
+```
+AI Disclosure
+Tool: Claude Code (Anthropic), model Claude Opus 5.5
+
+Code: AI-assisted. Claude wrote or edited gameplay and editor scripts, including
+input handling, collision feedback, HUD display, the opening newspaper cutscene,
+audio playback, and scene setup tools.
+
+Art: The following pixel art was generated by scripts written by Claude:
+background city buildings and their animations, sky and skyline, sidewalk props,
+foreground objects, the motorbike, license plates and their digits, the LUCK label,
+slot machine digits, the title logo and START button, the home room background,
+walking dust puffs, the pickup sparkle, the commute progress bar with its icons,
+the office scene with the boss, result and day-card text, the magpie, the combo/fever display,
+and the key, golden clover, treasure chest, and two-bread speech bubble.
+Some existing sprites were also recolored by script.
+
+Audio: All sound effects and both music loops were synthesized by a Python script
+written by Claude (square/triangle waves and noise; no samples or AI audio models).
+
+Writing: The opening newspaper text and the player's lines were written by Claude.
+
+[Add any other AI-made assets here, or delete this line.]
+
+Font: Liberation Sans (SIL Open Font License), bundled with TextMesh Pro.
+```

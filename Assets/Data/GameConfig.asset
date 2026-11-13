@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8743b4b2312b4594b9fe50442300a154, type: 3}
+  m_Name: GameConfig
+  m_EditorClassIdentifier: Assembly-CSharp::GameConfig
+  dailyQuotas: 320000003c00000046000000
+  dayCardSeconds: 1.6
+  basePay: 30000
+  bonusPerLuck: 3000
+  failPayPerLuck: 300
+  payCountSeconds: 1.2
+  bossFrameSeconds: 0.25
+  comboStreak: 3
+  comboMultiplier: 2
+  feverStreak: 9
+  feverMultiplier: 3
+  feverSeconds: 4
+  comboIdleSeconds: 2.5
+  comboPopSeconds: 0.2
+  comboPopScale: 1.6
+  feverBlinkSeconds: 0.08
+  tradeProgresses:
+  - 0.5
+  - 0.65
+  breadsForKey: 2
+  keyItem: {fileID: 21300000, guid: 3ad4641e23d70284db73221341bef780, type: 3}
+  chestProgress: 0.8
+  chestCenterY: 24
+  chestShakeSeconds: 0.25
+  chestShakePixels: 2
+  cloverItem: {fileID: 21300000, guid: b38542b4f8b350a40a2f5aecc5301688, type: 3}
+  cloverChance: 0.33
+  cloverMultiplier: 2
+  cloverPopSeconds: 0.25
+  cloverPopScale: 1.6
+  magpieIntervalMin: 8
+  magpieIntervalMax: 14
+  magpieSpeed: 230
+  magpieEdgeX: 340
+  magpieY: 90
+  magpieWave: 14
+  magpieWaveSpeed: 7
+  magpieFlapSeconds: 0.12
+  magpiePoints: 2
+  runSeconds: 60
+  endSpeedScale: 1.6
+  scrollSpeed: 3
+  walkFrameSeconds: 0.12
+  cityAnimFrameSeconds: 0.12
+  motorbikeInterval: 9
+  doorOpenSeconds: 0.5
+  itemInterval: 1.2
+  itemSpeed: 160
+  offscreenEdgeX: 420
+  carColors:
+  - {r: 0.8392157, g: 0.27058825, b: 0.25490198, a: 1}
+  - {r: 0.22745098, g: 0.48235294, b: 0.8352941, a: 1}
+  - {r: 0.95686275, g: 0.76862746, b: 0.1882353, a: 1}
+  - {r: 0.18431373, g: 0.6392157, b: 0.41960785, a: 1}
+  - {r: 0.9411765, g: 0.9411765, b: 0.92156863, a: 1}
+  - {r: 0.10980392, g: 0.11764706, b: 0.14901961, a: 1}
+  - {r: 0.9411765, g: 0.50980395, b: 0.19607843, a: 1}
+  itemLaneBottoms:
+  - -156
+  - -76
+  vehicleEdgeX: 460
+  vehicleGap: 40
+  car:
+    body: {fileID: 21300000, guid: 25d4ecf9909e16c46af6fbc5cc29604e, type: 3}
+    details: {fileID: 21300000, guid: 13d535410953ba04f9cfc2ed3b15d263, type: 3}
+    size: {x: 176, y: 72}
+    platePosition: {x: -61, y: -12}
+  bus:
+    body: {fileID: 21300000, guid: 5d228465b007ab04e847993fa2122045, type: 3}
+    details: {fileID: 21300000, guid: e212f7763cefbc5418dbbbe2bbb43d43, type: 3}
+    size: {x: 240, y: 80}
+    platePosition: {x: -93, y: -13}
+  busChance: 0.2
+  plateWeights: 230000001e0000000a0000000500000014000000
+  cellPoints: 1
+  slotInterval: 15
+  slotCenterY: 38
+  slotSpinInterval: 0.12
+  slotResultSeconds: 1
+  slotStrip: 3541374389
+  slotPointsByThrees: 00000000030000000600000021000000
+  slotTrapPoints: -5
+  pedestrianInterval: 4
+  pedestrianEdgeX: 360
+  pedestrianWalkSpeed: 40
+  pedestrianFeetY: 5
+  bumpX: -156
+  breadItem: {fileID: 21300000, guid: e54e6ebeb933bbc42948639979ed802d, type: 3}
+  maxBreadDroppers: 4
+  maxBreadAskers: 1
+  dropChance: 0.6
+  askChance: 0.6
+  breadRewardPoints: 3
+  breadDropOffsetX: 80
+  breadY: 12
+  luckRollStepSeconds: 0.05
+  luckBounceSeconds: 0.12
+  luckBouncePixels: 3
+  luckShakeSeconds: 0.25
+  luckShakePixels: 2
+  luckMilestoneSeconds: 0.9
+  luckBlinkSeconds: 0.09
+  luckDropColor: {r: 1, g: 0.3529412, b: 0.39215687, a: 1}
+  popupSeconds: 0.7
+  popupRisePixels: 26
+  popupOffset: {x: 10, y: 14}
+  popupJitter: 6
+  popupBlinkFrom: 0.75
+  popupEdgeX: 308
+  popupEdgeY: 150
+  popupGainColor: {r: 1, g: 0.8784314, b: 0.5411765, a: 1}
+  bumpFreezeSeconds: 0.12
+  bumpWarnDistance: 60
+  bumpFlySpeed: 240
+  bumpFlySeconds: 0.35
+  bumpFlyHeight: 28
+  bumpKnockbackPixels: 6
+  bumpStumbleSeconds: 0.2
+  bumpBlinkSeconds: 0.05
+  bumpFlashColor: {r: 1, g: 0.43137255, b: 0.43137255, a: 1}
+  bumpShakePixels: 3
+  bumpShakeSeconds: 0.15
+  bumpShakeSpeed: 90
+  platePoolSize: 8
+  popupPoolSize: 6
+  dustPoolSize: 4
+  dustFrameSeconds: 0.08
+  dustRisePixels: 3
+  dustOffset: {x: -10, y: -20}
+  pickupFlySeconds: 0.4
+  pickupArcPixels: 40
+  pickupStartScale: 1.4
+  slotPopSeconds: 0.18
+  slotPopScale: 1.5
+  sparkSeconds: 0.3
+  sparkDistance: 20
+  signInterval: 20
+  signCenterY: 48
+  signShakesNeeded: 6
+  signPoints: 3
+  shakeMinDelta: 2
+  stainWiggle: 2
+  stainFallSpeed: 160
+  stainFallDistance: 60
